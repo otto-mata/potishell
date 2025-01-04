@@ -1,32 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                                            */
-/*   ft_get_char.c                                        ┌─┐┌┬┐┌┬┐┌─┐        */
+/*   btree_apply_prefix.c                                 ┌─┐┌┬┐┌┬┐┌─┐        */
 /*                                                        │ │ │  │ │ │        */
 /*   By: tblochet <tblochet@student.42.fr>                └─┘ ┴  ┴ └─┘        */
 /*                                                        ┌┬┐┌─┐┌┬┐┌─┐        */
-/*   Created: 2025/01/04 16:04:07 by tblochet             │││├─┤ │ ├─┤        */
-/*   Updated: 2025/01/04 18:21:34 by tblochet             ┴ ┴┴ ┴ ┴ ┴ ┴        */
+/*   Created: 2025/01/04 21:22:23 by tblochet             │││├─┤ │ ├─┤        */
+/*   Updated: 2025/01/04 21:46:01 by tblochet             ┴ ┴┴ ┴ ┴ ┴ ┴        */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexing.h"
+#include "ft_btree.h"
 
-int	ft_get_char(char const *input)
+void	btree_apply_prefix(t_btree *root, void (*apply)(void *))
 {
-	static size_t		cur = 0;
-	static const char	*_str = 0;
-	static size_t		input_sz = 0;
-	size_t				ret_i;
-
-	if (_str == 0 && input)
-	{
-		_str = input;
-		input_sz = strlen(_str);
-	}
-	if (cur >= input_sz)
-		return (EOF);
-	ret_i = cur;
-	cur++;
-	return (_str[ret_i]);
+	if (!root || !apply)
+		return ;
+	apply(root->item);
+	btree_apply_prefix(root->left, apply);
+	btree_apply_prefix(root->right, apply);
 }

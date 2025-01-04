@@ -1,32 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                                            */
-/*   ft_get_char.c                                        ┌─┐┌┬┐┌┬┐┌─┐        */
+/*   btree_level_count.c                                  ┌─┐┌┬┐┌┬┐┌─┐        */
 /*                                                        │ │ │  │ │ │        */
 /*   By: tblochet <tblochet@student.42.fr>                └─┘ ┴  ┴ └─┘        */
 /*                                                        ┌┬┐┌─┐┌┬┐┌─┐        */
-/*   Created: 2025/01/04 16:04:07 by tblochet             │││├─┤ │ ├─┤        */
-/*   Updated: 2025/01/04 18:21:34 by tblochet             ┴ ┴┴ ┴ ┴ ┴ ┴        */
+/*   Created: 2025/01/04 21:50:41 by tblochet             │││├─┤ │ ├─┤        */
+/*   Updated: 2025/01/04 22:09:27 by tblochet             ┴ ┴┴ ┴ ┴ ┴ ┴        */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexing.h"
+#include "ft_btree.h"
 
-int	ft_get_char(char const *input)
+static int	ft_max(int a, int b)
 {
-	static size_t		cur = 0;
-	static const char	*_str = 0;
-	static size_t		input_sz = 0;
-	size_t				ret_i;
+	if (a > b)
+		return (a);
+	return (b);
+}
 
-	if (_str == 0 && input)
-	{
-		_str = input;
-		input_sz = strlen(_str);
-	}
-	if (cur >= input_sz)
-		return (EOF);
-	ret_i = cur;
-	cur++;
-	return (_str[ret_i]);
+int	btree_level_count(t_btree *root)
+{
+	int	count;
+
+	count = 0;
+	if (root == 0)
+		return (0);
+	if (root->left)
+		count = ft_max(count, btree_level_count(root->left));
+	if (root->right)
+		count = ft_max(count, btree_level_count(root->right));
+	return (count + 1);
 }

@@ -1,0 +1,197 @@
+cat -e file.txt | grep ERROR | grep -v apache > oui
+
+
+				REDIR
+			   /  	 \
+			  /   	  \
+			 /    	   \
+			/	 	    \
+		  PIPE         FILE[oui]
+		 /	 \
+		/	  \
+	   /	   \
+	 PIPE	   grep
+	/   \
+   /	 \
+  /		  \
+ cat	  grep
+
+
+df | grep '/dev/' | grep -v 'boot$' | awk '{used += $3; av += $4} END {printf "free: %dM, used: %dM\n", av / 1024, used / 1024}' > "$HOME/disk usage report.log"
+
+											REDIR--------------------->DSTRING
+										   /                           /      \
+										  /                           /        \
+										 /                           /          \
+										/                           /            \
+									  PIPE                       EXPAND        LITERAL
+									 /    \                        |              |
+									/      \                      HOME    /disk usage report.log
+								   /        \
+								  /          \
+								PIPE     awk '{used ...}'
+							   /    \
+							  /      \
+							 /        \
+							/          \
+						  PIPE    grep -v 'boot$'
+						 /    \
+						/      \
+					   /        \
+					  /          \
+					 df     grep '/dev/'
+
+PIPELINE
+	TYPE command
+		NAME
+			TYPE word
+				TEXT df
+		SUFFIX
+			NULL
+
+	TYPE command
+		NAME 
+			TYPE word
+				TEXT grep
+		SUFFIX 
+			TYPE word
+				TEXT /dev/
+
+	TYPE command
+		NAME
+			TYPE word
+				TEXT grep
+		SUFFIX
+			TYPE word
+				TEXT -v 
+
+	TYPE command
+		NAME
+			TYPE word
+				TEXT awk
+		SUFFIX
+			TYPE word
+				TEXT {used += $3; av += $4} END {printf "free: %dM, used: %dM\n", av / 1024, used / 1024}
+
+			TYPE redirection
+				OP
+					TEXT >
+					TYPE great
+				FILE
+					TEXT "$HOME/disk usage report.log"
+					EXPANSION
+						TYPE param_expansion
+						START 1
+						END 5
+						VAR HOME
+						KIND variable
+
+
+    $?
+    |
+EXPANSION
+	TYPE param_expansion
+	START 1
+	END 2
+	VAR NULL
+	KIND last_exit_code
+
+	$$
+	|
+EXPANSION
+	TYPE param_expansion
+	START 1
+	END 2
+	VAR NULL
+	KIND shell_proc_id
+
+	$1
+	|
+EXPANSION
+	TYPE param_expansion
+	START 1
+	END 2
+	VAR 1
+	KIND poistional
+
+"1""2""3"
+	|
+COMMAND
+	TYPE word
+		TEXT 123
+
+
+infile < ls | cat > outfile
+
+PIPELINE
+	TYPE command
+		NAME
+			TYPE word
+			TEXT ls
+		PREFIX
+			TYPE redirection
+				OP
+					TEXT <
+					TYPE less
+				FILE
+					TEXT infile
+	TYPE command
+		NAME
+			TYPE word
+			TEXT cat
+		SUFFIX
+			TYPE redirection
+				OP
+					TEXT >
+					TYPE great
+				FILE
+					TEXT outfile
+
+cat << EOF >> outfile
+
+TYPE command
+	NAME
+		TYPE word
+		TEXT cat
+	SUFFIX
+		TYPE heredoc
+			STOP WOF
+		TYPE redirection
+			OP
+				TEXT >>
+				TYPE dgreat
+			FILE
+				TEXT outfile
+
+		
+
+
+
+
+env | sort | grep -v SHLVL | grep -v ^_
+
+						   out
+							|
+						  PIPE
+						 /    \
+						/      \
+					   /        \
+					  /          \
+					PIPE      grep -v ^_
+				   /    \
+				  /      \
+				 /        \
+				/          \
+			  PIPE     grep -v SHLVL
+			 /    \
+			/      \
+		   /        \
+		  /          \
+		env         sort
+
+
+PIPELINE
+	COMMAND env
+	COMMAND sort
+	COMMAND grep -v SHLVL
+	COMMAND grep -v ^_

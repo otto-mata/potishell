@@ -1,31 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   tokenize.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: tblochet <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/04 16:15:31 by tblochet          #+#    #+#             */
-/*   Updated: 2025/01/04 17:10:22 by tblochet         ###   ########.fr       */
+/*                                                                            */
+/*   tokenize.c                                           ┌─┐┌┬┐┌┬┐┌─┐        */
+/*                                                        │ │ │  │ │ │        */
+/*   By: tblochet <tblochet@student.42.fr>                └─┘ ┴  ┴ └─┘        */
+/*                                                        ┌┬┐┌─┐┌┬┐┌─┐        */
+/*   Created: 2025/01/04 16:15:31 by tblochet             │││├─┤ │ ├─┤        */
+/*   Updated: 2025/01/04 19:05:21 by tblochet             ┴ ┴┴ ┴ ┴ ┴ ┴        */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <ctype.h>
-#include <string.h>
-#include <stdio.h> 
+#include "lexing.h"
 
-int	ft_get_char(char const *s);
-
-struct	s_tokens
-{
-	char	identifier_str[256];
-};
-
-int tokenize(char const *s, char *token)
+t_ast tokenize(char const *s)
 {
 	static int		last_char = ' ';
 	static int		setup = 0;
-	char			ret_char;
+	t_ast			ast;
 	char			quote_match;
 	char			redir;
 
@@ -36,91 +27,86 @@ int tokenize(char const *s, char *token)
 	}
 	while (isspace(last_char))
 		last_char = ft_get_char(0);
-	if (isalpha(last_char))
+	if (isalnum(last_char) || last_char == '-')
 	{
-		memset(token, 0, 256);
-		token[0] = last_char;
+		memset(ast.node.generic_expr_ast.expr, 0, 256);
+		ast.node.generic_expr_ast.expr[0] = last_char;
 		last_char = ft_get_char(0);
-		while (isalnum(last_char))
+		while (isalnum(last_char)|| last_char == '-')
 		{
-			strcat(token, (const char *)&last_char);
+			strcat(ast.node.generic_expr_ast.expr, (const char *)&last_char);
 			last_char = ft_get_char(0);
 		}
-		return (-2);
+		ast.type = -2;
+		return (ast);
 	}
 	if (last_char == '\'' || last_char == '"')
 	{
 		quote_match = last_char;
-		if (quote_match == '\'')
-			strcpy(token, "SQUOTE_LITERAL_");
-		else
-			strcpy(token, "DQUOTE_LITERAL_");
+		ast.node.quote_ast.content[0] = 0;
 		last_char = ft_get_char(0);
 		while (last_char != quote_match)
 		{
-			strcat(token, (const char *)&last_char);
+			strcat(ast.node.quote_ast.content, (const char *)&last_char);
 			last_char = ft_get_char(0);
 			if (last_char == EOF)
 			{
-				strcpy(token, "UNCLOSED_STR");
-				return (EOF);
+				ast.node.eof.eof = 1;
+				ast.type = EOF;
+				return (ast);
 			}
 		}
 		last_char = ft_get_char(0);
-		return (-3);
+		if (quote_match == '\'')
+			ast.type = -3;
+		else
+			ast.type = -4;
+		return (ast);
 	}
 	if (last_char == '|')
 	{
 		last_char = ft_get_char(0);
-		strcpy(token, "PIPE");
-		return (-4);
-	}
-	if (last_char == '-')
-	{
-		memset(token, 0, 256);
-		token[0] = last_char;
-		last_char = ft_get_char(0);
-		while (!isspace(last_char))
-		{
-			strcat(token, (const char *)&last_char);
-			last_char = ft_get_char(0);
-		}
-		return (-5);
+		ast.node.pipe_ast.pipe = 1;
+		ast.type = -5;
+		return (ast);
 	}
 	if (last_char == '>' || last_char == '<')
 	{
-		strcpy(token, "REDIRECTION_");
+		ast.type = -6;
 		if (last_char == '<')
-			strcat(token, "INWARD");
+			ast.node.redir_ast.redir_type = INWARD;
 		else
-			strcat(token, "OUTWARD");
+			ast.node.redir_ast.redir_type = OUTWARD;
 		redir = last_char;
 		last_char = ft_get_char(0);
 		if (last_char == redir)
 		{
 			if (last_char == '<')
 			{
-				strcpy(token, "HEREDOC");
+				ast.node.redir_ast.redir_type = HEREDOC;
 				last_char = ft_get_char(0);
-				return (-8);
+				return (ast);
 			}
 			if (last_char == '>')
 			{
-				strcat(token, "_APPEND");
+				ast.node.redir_ast.redir_type = OUTWARD_APPEND;
 				last_char = ft_get_char(0);
-				return (-9);
+				return (ast);
 			}
 		}
 		last_char = ft_get_char(0);
-		if (redir == '<')
-			return (-6);
-		if (redir == '>')
-			return (-7);
+		if (redir == '<' || redir == '>')
+			return (ast);
 	}
 
 	if (last_char == EOF)
-		return (EOF);
-	ret_char = last_char;
+	{
+		ast.type = EOF;
+		ast.node.eof.eof = 1;
+		return (ast);
+	}
+	ast.type = -2;
+	ast.node.generic_expr_ast.expr[0] = last_char;
 	last_char = ft_get_char(0);
-	return (ret_char);
+	return (ast);
 }

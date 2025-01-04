@@ -1,32 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                                            */
-/*   ft_get_char.c                                        ┌─┐┌┬┐┌┬┐┌─┐        */
+/*   btree_create_node.c                                  ┌─┐┌┬┐┌┬┐┌─┐        */
 /*                                                        │ │ │  │ │ │        */
 /*   By: tblochet <tblochet@student.42.fr>                └─┘ ┴  ┴ └─┘        */
 /*                                                        ┌┬┐┌─┐┌┬┐┌─┐        */
-/*   Created: 2025/01/04 16:04:07 by tblochet             │││├─┤ │ ├─┤        */
-/*   Updated: 2025/01/04 18:21:34 by tblochet             ┴ ┴┴ ┴ ┴ ┴ ┴        */
+/*   Created: 2025/01/04 21:24:42 by tblochet             │││├─┤ │ ├─┤        */
+/*   Updated: 2025/01/04 21:46:03 by tblochet             ┴ ┴┴ ┴ ┴ ┴ ┴        */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexing.h"
+#include "ft_btree.h"
 
-int	ft_get_char(char const *input)
+t_btree	*btree_create_node(void *item)
 {
-	static size_t		cur = 0;
-	static const char	*_str = 0;
-	static size_t		input_sz = 0;
-	size_t				ret_i;
+	t_btree	*node;
 
-	if (_str == 0 && input)
-	{
-		_str = input;
-		input_sz = strlen(_str);
-	}
-	if (cur >= input_sz)
-		return (EOF);
-	ret_i = cur;
-	cur++;
-	return (_str[ret_i]);
+	node = malloc(sizeof(t_btree));
+	if (!node)
+		return (0);
+	node->left = 0;
+	node->right = 0;
+	node->item = item;
+	return (node);
 }
