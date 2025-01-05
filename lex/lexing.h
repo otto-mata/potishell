@@ -6,7 +6,7 @@
 /*   By: tblochet <tblochet@student.42.fr>                └─┘ ┴  ┴ └─┘        */
 /*                                                        ┌┬┐┌─┐┌┬┐┌─┐        */
 /*   Created: 2025/01/04 18:01:12 by tblochet             │││├─┤ │ ├─┤        */
-/*   Updated: 2025/01/04 19:04:40 by tblochet             ┴ ┴┴ ┴ ┴ ┴ ┴        */
+/*   Updated: 2025/01/05 01:04:01 by tblochet             ┴ ┴┴ ┴ ┴ ┴ ┴        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ struct							s_eof_ast
 	int							eof;
 };
 
-
 union							u_node_ast
 {
 	t_expr_ast					generic_expr_ast;
@@ -85,6 +84,35 @@ struct							s_ast
 {
 	t_ast_node_type				type;
 	t_node_ast					node;
+};
+
+enum							e_type
+{
+	WORD,
+	REDIRECTION,
+	GREAT,
+	LESS,
+	PIPELINE,
+};
+struct							s_type_text
+{
+	enum e_type					type;
+	char						*text;
+};
+
+struct							s_cmd_fix
+{
+	enum e_type					type;
+	struct s_type_text			op;
+	struct s_type_text			file;
+	struct s_type_text			args;
+};
+
+struct							s_command
+{
+	struct s_type_text			name;
+	struct s_cmd_fix			**suffix;
+	struct s_cmd_fix			**prefix;
 };
 
 int								ft_get_char(char const *s);
