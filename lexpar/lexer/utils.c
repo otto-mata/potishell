@@ -6,21 +6,11 @@
 /*   By: tblochet <tblochet@student.42.fr>                └─┘ ┴  ┴ └─┘        */
 /*                                                        ┌┬┐┌─┐┌┬┐┌─┐        */
 /*   Created: 2025/01/08 04:43:45 by tblochet             │││├─┤ │ ├─┤        */
-/*   Updated: 2025/01/08 06:05:31 by tblochet             ┴ ┴┴ ┴ ┴ ┴ ┴        */
+/*   Updated: 2025/01/08 08:34:23 by tblochet             ┴ ┴┴ ┴ ┴ ┴ ┴        */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer_utils.h"
-
-int	index_of(char *s, char c)
-{
-	char	*match;
-
-	match = ft_strchr(s, c);
-	if (!match)
-		return (-1);
-	return ((int)(match - s));
-}
 
 void	set_quote_state(char c, int *state)
 {

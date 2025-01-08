@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                                            */
-/*   smart_split.c                                        ┌─┐┌┬┐┌┬┐┌─┐        */
+/*   smarter_split.c                                      ┌─┐┌┬┐┌┬┐┌─┐        */
 /*                                                        │ │ │  │ │ │        */
 /*   By: tblochet <tblochet@student.42.fr>                └─┘ ┴  ┴ └─┘        */
 /*                                                        ┌┬┐┌─┐┌┬┐┌─┐        */
 /*   Created: 2025/01/08 03:00:50 by tblochet             │││├─┤ │ ├─┤        */
-/*   Updated: 2025/01/08 05:45:38 by tblochet             ┴ ┴┴ ┴ ┴ ┴ ┴        */
+/*   Updated: 2025/01/08 06:21:21 by tblochet             ┴ ┴┴ ┴ ┴ ┴ ┴        */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexpar.h"
+#include "lexer.h"
 
 static int	count_spaces(char *s)
 {
@@ -46,7 +46,7 @@ static int	*mark(char *s, int *idcs)
 	return (idcs);
 }
 
-t_list	*smart_split(char *s)
+t_list	*smarter_split(char *s)
 {
 	t_list	*out;
 	int		nspaces;
@@ -80,7 +80,7 @@ t_list	*smart_split(char *s)
 	t_list *head;
 
 	s = "ls -al a* | grep me > outfile";
-	tok = smart_split(s);
+	tok = smarter_split(s);
 	head = tok;
 	while (tok)
 	{

@@ -6,11 +6,11 @@
 /*   By: tblochet <tblochet@student.42.fr>                └─┘ ┴  ┴ └─┘        */
 /*                                                        ┌┬┐┌─┐┌┬┐┌─┐        */
 /*   Created: 2025/01/08 04:35:34 by tblochet             │││├─┤ │ ├─┤        */
-/*   Updated: 2025/01/08 06:07:04 by tblochet             ┴ ┴┴ ┴ ┴ ┴ ┴        */
+/*   Updated: 2025/01/08 08:34:28 by tblochet             ┴ ┴┴ ┴ ┴ ┴ ┴        */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexpar.h"
+#include "lexer.h"
 
 static int	non_quoted_index(char *s, char c)
 {
@@ -46,7 +46,6 @@ static int	special_char_index(char *s)
 	idx = non_quoted_index(s, '<');
 	if (idx >= 0)
 		return (idx);
-	idx = non_quoted_index(s, '&');
 	return (idx);
 }
 
@@ -69,7 +68,7 @@ static t_list	*subpart_lex(char *part)
 	j = 0;
 	while (part[++i])
 	{
-		if (!ft_strchr("|<>&", part[i]) && !ft_isspace(part[i]))
+		if (!ft_strchr("|<>", part[i]) && !ft_isspace(part[i]))
 			buf[j++] = part[i];
 		else
 		{
@@ -89,13 +88,13 @@ static t_list	*subpart_lex(char *part)
 	return (out);
 }
 
-t_list	*get_clean_parts(char *raw)
+static t_list	*get_clean_parts(char *raw)
 {
 	t_list	*ws_split;
 	t_list	*part;
 	t_list	*pre_token;
 
-	ws_split = smart_split(raw);
+	ws_split = smarter_split(raw);
 	if (!ws_split)
 		return (0);
 	pre_token = 0;
@@ -159,25 +158,9 @@ t_list	*tokenize(char *raw)
 	ft_lstclear(&clean_input, free);
 	return (tokens);
 }
-int	main(int argc, char **argv)
-{
-	t_list	*tok;
-	t_list	*head;
-	t_token	*curr;
-	char	*raw;
 
-	if (argc < 2)
-		raw = "ls -al a* | grep me >> outfile";
-	else
-		raw = argv[1];
-	tok = tokenize(raw);
-	head = tok;
-	while (tok)
-	{
-		curr = (t_token *)tok->content;
-		ft_printf("%s %s\n", str_token_type(curr->type), curr->text ? curr->text : "");
-		tok = tok->next;
-	}
-	ft_lstclear(&head, free);
-	return (0);
+void free_token_list(void *content)
+{
+	free(((t_token *)content)->text);
+	free(content);
 }

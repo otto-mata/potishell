@@ -1,20 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                                            */
-/*   lexer_utils.h                                        ┌─┐┌┬┐┌┬┐┌─┐        */
+/*   utils.c                                              ┌─┐┌┬┐┌┬┐┌─┐        */
 /*                                                        │ │ │  │ │ │        */
 /*   By: tblochet <tblochet@student.42.fr>                └─┘ ┴  ┴ └─┘        */
 /*                                                        ┌┬┐┌─┐┌┬┐┌─┐        */
-/*   Created: 2025/01/08 04:45:24 by tblochet             │││├─┤ │ ├─┤        */
-/*   Updated: 2025/01/08 06:04:02 by tblochet             ┴ ┴┴ ┴ ┴ ┴ ┴        */
+/*   Created: 2025/01/08 06:35:06 by tblochet             │││├─┤ │ ├─┤        */
+/*   Updated: 2025/01/08 06:35:57 by tblochet             ┴ ┴┴ ┴ ┴ ┴ ┴        */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LEXER_UTILS_H
-# define LEXER_UTILS_H
-# include "../libft/libft.h"
+#include "parser_utils.h"
 
-int		index_of(char *s, char c);
-void	set_quote_state(char c, int *state);
-char	*str_token_type(int type);
-#endif
+void	*ft_realloc(void *mem, size_t old_sz, size_t new_sz)
+{
+	void	*nmem;
+	size_t	sz;
+
+	nmem = malloc(new_sz);
+	if (!nmem)
+		return (0);
+	if (!mem)
+		return (nmem);
+	if (new_sz < old_sz)
+		sz = new_sz;
+	else 
+		sz = old_sz;
+	while (sz--)
+		((unsigned char *)nmem)[sz] = ((unsigned char *)mem)[sz];
+	return (nmem);
+}
