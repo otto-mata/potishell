@@ -6,7 +6,7 @@
 /*   By: tblochet <tblochet@student.42.fr>                └─┘ ┴  ┴ └─┘        */
 /*                                                        ┌┬┐┌─┐┌┬┐┌─┐        */
 /*   Created: 2025/01/08 06:24:25 by tblochet             │││├─┤ │ ├─┤        */
-/*   Updated: 2025/01/08 10:07:08 by tblochet             ┴ ┴┴ ┴ ┴ ┴ ┴        */
+/*   Updated: 2025/01/08 20:40:33 by tblochet             ┴ ┴┴ ┴ ┴ ┴ ┴        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,12 @@ struct						s_simple_cmd
 	int						allocd;
 	int						argc;
 	char					**argv;
+	int						of_allocd;
+	int						ofc;
+	int						if_allocd;
+	int						ifc;
+	t_wredir				**outfiles;
+	t_rredir				**infiles;
 };
 
 struct						s_wredir
@@ -53,12 +59,6 @@ struct						s_cmd
 {
 	int						allocd;
 	int						cmdc;
-	int						of_allocd;
-	int						ofc;
-	int						if_allocd;
-	int						ifc;
-	t_wredir				**outfiles;
-	t_rredir				**infiles;
 	t_simple_cmd			**simple_cmds;
 	t_simple_cmd			*current_cmd;
 };
@@ -71,7 +71,7 @@ void						insert_simple_cmd(t_cmd *cmd,
 								t_simple_cmd *simple_cmd);
 void						expand_tokens(t_list *tokens);
 
-void						insert_infile(t_cmd *cmd, char *file,
+void						insert_infile(t_simple_cmd *cmd, char *file,
 								int is_heredoc);
-void						insert_outfile(t_cmd *cmd, char *file, int wmode);
+void						insert_outfile(t_simple_cmd *cmd, char *file, int wmode);
 #endif

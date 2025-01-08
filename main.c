@@ -6,7 +6,7 @@
 /*   By: tblochet <tblochet@student.42.fr>                └─┘ ┴  ┴ └─┘        */
 /*                                                        ┌┬┐┌─┐┌┬┐┌─┐        */
 /*   Created: 2025/01/08 08:33:28 by tblochet             │││├─┤ │ ├─┤        */
-/*   Updated: 2025/01/08 10:44:35 by tblochet             ┴ ┴┴ ┴ ┴ ┴ ┴        */
+/*   Updated: 2025/01/08 23:12:27 by tblochet             ┴ ┴┴ ┴ ┴ ┴ ┴        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,17 @@
 #include "lexpar/parser/parser.h"
 #include "libft/libft.h"
 #include <fcntl.h>
+
+static int	is_redir(t_token_type toktype)
+{
+	return (toktype == LESS || toktype == LESSLESS || toktype == GREAT
+		|| toktype == GREATGREAT);
+}
+
+static int	is_cmd_separator(t_token_type toktype)
+{
+	return (toktype == PIPE);
+}
 
 t_simple_cmd	*simple_command_from_tokens(t_list **tokens)
 {
@@ -28,9 +39,22 @@ t_simple_cmd	*simple_command_from_tokens(t_list **tokens)
 	while (*tokens)
 	{
 		curr = (t_token *)(*tokens)->content;
-		if (curr->type != WORD)
+		if (is_redir(curr->type))
+		{
+			if (curr->type == GREAT || curr->type == GREATGREAT)
+				insert_outfile(s_cmd,
+					((t_token *)(*tokens)->next->content)->text,
+					curr->type == GREATGREAT);
+			else
+				insert_infile(s_cmd,
+					((t_token *)(*tokens)->next->content)->text,
+					curr->type == LESSLESS);
+			(*tokens) = (*tokens)->next;
+		}
+		else if (curr->type == WORD)
+			insert_argument(s_cmd, curr->text);
+		else if (is_cmd_separator(curr->type))
 			break ;
-		insert_argument(s_cmd, curr->text);
 		(*tokens) = (*tokens)->next;
 	}
 	return (s_cmd);
@@ -57,7 +81,6 @@ i.e. <file0 <file1 cat >out0 >out1 ecrira
 
 */
 
-
 int	main(int argc, char **argv)
 {
 	t_list			*tok;
@@ -82,20 +105,16 @@ int	main(int argc, char **argv)
 	while (tok)
 	{
 		curr = (t_token *)tok->content;
+		// ft_printf("%s %s\n", str_token_type(curr->type), curr->text);
+		tok = tok->next;
+	}
+	tok = head;
+	while (tok)
+	{
+		curr = (t_token *)tok->content;
 		s_cmd = 0;
-		if (curr->type == WORD)
+		if (!is_cmd_separator(curr->type))
 			s_cmd = simple_command_from_tokens(&tok);
-		else if (curr->type == GREAT || curr->type == GREATGREAT)
-		{
-			wmode = O_WRONLY;
-			if (curr->type == GREATGREAT)
-				wmode = O_WRONLY | O_APPEND;
-			insert_outfile(cmd, ((t_token *)(tok->next->content))->text, wmode);
-			tok = tok->next;
-		}
-		else if (curr->type == LESS || curr->type == LESSLESS)
-			insert_infile(cmd, ((t_token *)(tok->next->content))->text,
-				curr->type == LESSLESS);
 		if (!s_cmd)
 			tok = tok->next;
 		insert_simple_cmd(cmd, s_cmd);
@@ -103,21 +122,35 @@ int	main(int argc, char **argv)
 	for (i = 0; i < cmd->cmdc; i++)
 	{
 		s_cmd = cmd->simple_cmds[i];
-		ft_printf("SIMPLE COMMAND ");
+		ft_printf("Command: ");
 		for (j = 0; j < s_cmd->argc; j++)
 		{
 			ft_printf("%s ", s_cmd->argv[j]);
 		}
-		if (i < cmd->cmdc - 1)
-			ft_printf("PIPING INTO");
+		ft_printf("\n");
+		if (s_cmd->ifc)
+		{
+			ft_printf("Aggregating input from: ");
+			for (j = 0; j < s_cmd->ifc; j++)
+			{
+				if (s_cmd->infiles[j]->from)
+					ft_printf("%s ", s_cmd->infiles[j]->from);
+				else 
+					ft_printf("heredoc(%s) ", s_cmd->infiles[j]->heredoc_lim);
+			}
+		ft_printf("\n");
+		}
+		if (s_cmd->ofc)
+		{
+			ft_printf("Outputing to: ");
+			for (j = 0; j < s_cmd->ofc; j++)
+			{
+				ft_printf("%s (%s) ", s_cmd->outfiles[j]->to, s_cmd->outfiles[j]->mode ? "APPEND" : "WRITE");
+			}
+		ft_printf("\n");
+		}
 		ft_printf("\n");
 	}
-	ft_printf("REDIRECTIONS: ");
-	for (i = 0; i < cmd->ofc; i++)
-	{
-		ft_printf("%s: %d, ", cmd->outfiles[i]->to, cmd->outfiles[i]->mode);
-	}
-	ft_printf("\n");
 	ft_lstclear(&head, free_token_list);
 	return (0);
 }

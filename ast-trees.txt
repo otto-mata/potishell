@@ -203,3 +203,21 @@ PIPELINE
 	 /         \
 	/           \
  Noeud         Noeud
+
+ Current progress as of 23:14 - 2025/01/08
+
+[user]% ./a.out '<<Makefile cat >out test.c >>out2 -e <infile2 | grep "oui" << GREPEOF >file0 >>file3 | sort | cat -e >>file3 < EDIT '  
+Parsing command: <<Makefile cat >out test.c >>out2 -e <infile2 | grep "oui" << GREPEOF >file0 >>file3 | sort | cat -e >>file3 < EDIT 
+Command: cat test.c -e 
+Aggregating input from: heredoc(Makefile) infile2 
+Outputing to: out (WRITE) out2 (APPEND) 
+
+Command: grep "oui" 
+Aggregating input from: heredoc(GREPEOF) 
+Outputing to: file0 (WRITE) file3 (APPEND) 
+
+Command: sort 
+
+Command: cat -e 
+Aggregating input from: EDIT  
+Outputing to: file3 (APPEND) 
