@@ -195,3 +195,11 @@ PIPELINE
 	COMMAND sort
 	COMMAND grep -v SHLVL
 	COMMAND grep -v ^_
+
+
+        Noeud
+	   /  |  \
+	  / item  \
+	 /         \
+	/           \
+ Noeud         Noeud

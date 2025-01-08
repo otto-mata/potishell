@@ -1,32 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                                            */
-/*   ft_get_char.c                                        ┌─┐┌┬┐┌┬┐┌─┐        */
+/*   lexer_utils.h                                        ┌─┐┌┬┐┌┬┐┌─┐        */
 /*                                                        │ │ │  │ │ │        */
 /*   By: tblochet <tblochet@student.42.fr>                └─┘ ┴  ┴ └─┘        */
 /*                                                        ┌┬┐┌─┐┌┬┐┌─┐        */
-/*   Created: 2025/01/04 16:04:07 by tblochet             │││├─┤ │ ├─┤        */
-/*   Updated: 2025/01/04 18:21:34 by tblochet             ┴ ┴┴ ┴ ┴ ┴ ┴        */
+/*   Created: 2025/01/08 04:45:24 by tblochet             │││├─┤ │ ├─┤        */
+/*   Updated: 2025/01/08 06:04:02 by tblochet             ┴ ┴┴ ┴ ┴ ┴ ┴        */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexing.h"
+#ifndef LEXER_UTILS_H
+# define LEXER_UTILS_H
+# include "../libft/libft.h"
 
-int	ft_get_char(char const *input)
-{
-	static size_t		cur = 0;
-	static const char	*_str = 0;
-	static size_t		input_sz = 0;
-	size_t				ret_i;
-
-	if (_str == 0 && input)
-	{
-		_str = input;
-		input_sz = strlen(_str);
-	}
-	if (cur >= input_sz)
-		return (EOF);
-	ret_i = cur;
-	cur++;
-	return (_str[ret_i]);
-}
+int		index_of(char *s, char c);
+void	set_quote_state(char c, int *state);
+char	*str_token_type(int type);
+#endif
