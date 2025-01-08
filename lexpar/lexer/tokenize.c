@@ -6,7 +6,7 @@
 /*   By: tblochet <tblochet@student.42.fr>                └─┘ ┴  ┴ └─┘        */
 /*                                                        ┌┬┐┌─┐┌┬┐┌─┐        */
 /*   Created: 2025/01/08 04:35:34 by tblochet             │││├─┤ │ ├─┤        */
-/*   Updated: 2025/01/08 08:34:28 by tblochet             ┴ ┴┴ ┴ ┴ ┴ ┴        */
+/*   Updated: 2025/01/08 09:15:16 by tblochet             ┴ ┴┴ ┴ ┴ ┴ ┴        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,14 +121,14 @@ static t_token	*a2token(char *part)
 	token->text = 0;
 	if (ft_strcmp(part, "|") == 0)
 		token->type = PIPE;
-	else if (ft_strcmp(part, ">") == 0)
-		token->type = GREAT;
 	else if (ft_strcmp(part, ">>") == 0)
 		token->type = GREATGREAT;
-	else if (ft_strcmp(part, "<") == 0)
-		token->type = LESS;
+	else if (ft_strcmp(part, ">") == 0)
+		token->type = GREAT;
 	else if (ft_strcmp(part, "<<") == 0)
 		token->type = LESSLESS;
+	else if (ft_strcmp(part, "<") == 0)
+		token->type = LESS;
 	else
 	{
 		token->type = WORD;
