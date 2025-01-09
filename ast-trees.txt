@@ -204,7 +204,12 @@ PIPELINE
 	/           \
  Noeud         Noeud
 
- Current progress as of 23:14 - 2025/01/08
+
+
+
+
+
+Current progress as of 23:14 - 2025/01/08
 
 [user]% ./a.out '<<Makefile cat >out test.c >>out2 -e <infile2 | grep "oui" << GREPEOF >file0 >>file3 | sort | cat -e >>file3 < EDIT '  
 Parsing command: <<Makefile cat >out test.c >>out2 -e <infile2 | grep "oui" << GREPEOF >file0 >>file3 | sort | cat -e >>file3 < EDIT 

@@ -6,7 +6,7 @@
 /*   By: tblochet <tblochet@student.42.fr>                └─┘ ┴  ┴ └─┘        */
 /*                                                        ┌┬┐┌─┐┌┬┐┌─┐        */
 /*   Created: 2025/01/08 06:24:25 by tblochet             │││├─┤ │ ├─┤        */
-/*   Updated: 2025/01/08 20:40:33 by tblochet             ┴ ┴┴ ┴ ┴ ┴ ┴        */
+/*   Updated: 2025/01/09 00:50:09 by tblochet             ┴ ┴┴ ┴ ┴ ┴ ┴        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ struct						s_simple_cmd
 struct						s_wredir
 {
 	char					*to;
-	int						mode;
+	int						append_mode;
 };
 
 struct						s_rredir

@@ -6,7 +6,7 @@
 /*   By: tblochet <tblochet@student.42.fr>                └─┘ ┴  ┴ └─┘        */
 /*                                                        ┌┬┐┌─┐┌┬┐┌─┐        */
 /*   Created: 2025/01/08 03:00:50 by tblochet             │││├─┤ │ ├─┤        */
-/*   Updated: 2025/01/08 06:21:21 by tblochet             ┴ ┴┴ ┴ ┴ ┴ ┴        */
+/*   Updated: 2025/01/09 00:36:31 by tblochet             ┴ ┴┴ ┴ ┴ ┴ ┴        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,9 @@ t_list	*smarter_split(char *s)
 	while (i < nspaces - 1 && indices[++i] != -1)
 	{
 		sdup = ft_substr(s, indices[i - 1] + 1, indices[i] - indices[i - 1] - 1);
-		ft_lstadd_back(&out, ft_lstnew((void *)sdup));
+		sdup = ft_strtrim(sdup, " \t\r\n\v");
+		if (!ft_isspace(sdup[0]))
+			ft_lstadd_back(&out, ft_lstnew((void *)sdup));
 	}
 	free(indices);
 	return (out);

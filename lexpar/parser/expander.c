@@ -6,35 +6,28 @@
 /*   By: tblochet <tblochet@student.42.fr>                └─┘ ┴  ┴ └─┘        */
 /*                                                        ┌┬┐┌─┐┌┬┐┌─┐        */
 /*   Created: 2025/01/08 07:10:23 by tblochet             │││├─┤ │ ├─┤        */
-/*   Updated: 2025/01/08 08:37:21 by tblochet             ┴ ┴┴ ┴ ┴ ┴ ┴        */
+/*   Updated: 2025/01/09 02:10:34 by tblochet             ┴ ┴┴ ┴ ┴ ┴ ┴        */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-char	*replace(char *in, char *sub, char *by)
+static int	var_name_sz(char *s)
 {
-	size_t	sub_sz;
-	size_t	final_sz;
-	char	*ret;
-	char	*substart;
+	int	i;
 
-	if (!in || !sub)
+	if (!s)
 		return (0);
-	substart = ft_strstr(in, sub);
-	if (!substart)
-		return (ft_strdup(in));
-	sub_sz = ft_strlen(sub);
-	if (!by)
-		by = "";
-	final_sz = ft_strlen(in) - sub_sz + ft_strlen(by);
-	ret = ft_calloc(final_sz + 1, sizeof(char));
-	if (!ret)
-		return (0);
-	ft_strncpy(ret, in, (size_t)(substart - in));
-	ft_strcat(ret, by);
-	ft_strcat(ret, (char *)(substart + sub_sz));
-	return (ret);
+	i = -1;
+	while (s[++i])
+		if (!ft_isalnum(s[i]) && s[i] != '_')
+			break ;
+	return (i);
+}
+
+char	*retrieve_last_exit_code(void)
+{
+	return (0);
 }
 
 void	expand_token(t_token *token, int start)
@@ -44,11 +37,16 @@ void	expand_token(t_token *token, int start)
 	char	*expanded;
 	int		end;
 
-	end = index_of(token->text + start, ' ');
-	if (end < 0)
-		end = ft_strlen(token->text + start);
-	var_name = ft_substr(token->text, start + 1, end);
-	env_value = getenv(var_name);
+	if (token->text + start + 1 == '?')
+		env_value = retrieve_last_exit_code();
+	else
+	{
+		end = var_name_sz(token->text + start + 1);
+		if (end < 0)
+			return ;
+		var_name = ft_substr(token->text, start + 1, end);
+		env_value = getenv(var_name);
+	}
 	expanded = replace(token->text, var_name, env_value);
 	free(token->text);
 	free(var_name);
@@ -71,9 +69,13 @@ void	expand_tokens(t_list *tokens)
 			return ;
 		if (token->type == WORD)
 		{
-			dollar_sign = index_of(token->text, '$');
-			if (dollar_sign >= 0)
-				expand_token(token, dollar_sign);
+			dollar_sign = 0;
+			while (dollar_sign >= 0)
+			{
+				dollar_sign = index_of(token->text, '$');
+				if (dollar_sign >= 0)
+					expand_token(token, dollar_sign);
+			}
 		}
 		iter = iter->next;
 	}

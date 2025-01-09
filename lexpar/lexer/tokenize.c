@@ -6,7 +6,7 @@
 /*   By: tblochet <tblochet@student.42.fr>                └─┘ ┴  ┴ └─┘        */
 /*                                                        ┌┬┐┌─┐┌┬┐┌─┐        */
 /*   Created: 2025/01/08 04:35:34 by tblochet             │││├─┤ │ ├─┤        */
-/*   Updated: 2025/01/08 23:02:23 by tblochet             ┴ ┴┴ ┴ ┴ ┴ ┴        */
+/*   Updated: 2025/01/09 00:41:55 by tblochet             ┴ ┴┴ ┴ ┴ ┴ ┴        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,8 @@ static t_list	*subpart_lex(char *part)
 	char	*buf;
 	int		i;
 	int		j;
-
+	int		in_quote;
+	
 	if (!part)
 		return (0);
 	bufsz = ft_strlen(part);
@@ -64,11 +65,14 @@ static t_list	*subpart_lex(char *part)
 	if (!buf)
 		return (0);
 	out = 0;
+	in_quote = 0;
 	i = -1;
 	j = 0;
 	while (part[++i])
 	{
-		if (!ft_strchr("|<>", part[i]) && !ft_isspace(part[i]))
+		if (part[i] == '"' || part[i] == '\'')
+			set_quote_state(part[i], &in_quote);
+		if (!ft_strchr("|<>", part[i]) && (!ft_isspace(part[i]) || in_quote))
 			buf[j++] = part[i];
 		else
 		{
@@ -159,7 +163,7 @@ t_list	*tokenize(char *raw)
 	return (tokens);
 }
 
-void free_token_list(void *content)
+void	free_token_list(void *content)
 {
 	free(((t_token *)content)->text);
 	free(content);

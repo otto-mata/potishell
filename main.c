@@ -6,7 +6,7 @@
 /*   By: tblochet <tblochet@student.42.fr>                └─┘ ┴  ┴ └─┘        */
 /*                                                        ┌┬┐┌─┐┌┬┐┌─┐        */
 /*   Created: 2025/01/08 08:33:28 by tblochet             │││├─┤ │ ├─┤        */
-/*   Updated: 2025/01/08 23:12:27 by tblochet             ┴ ┴┴ ┴ ┴ ┴ ┴        */
+/*   Updated: 2025/01/09 00:50:09 by tblochet             ┴ ┴┴ ┴ ┴ ┴ ┴        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ int	main(int argc, char **argv)
 		raw = "ls -al a* | grep me >> outfile";
 	else
 		raw = argv[1];
+	ft_printf("-------------------------------------------------------------\n");
 	ft_printf("Parsing command: %s\n", raw);
 	tok = tokenize(raw);
 	expand_tokens(tok);
@@ -135,19 +136,20 @@ int	main(int argc, char **argv)
 			{
 				if (s_cmd->infiles[j]->from)
 					ft_printf("%s ", s_cmd->infiles[j]->from);
-				else 
+				else
 					ft_printf("heredoc(%s) ", s_cmd->infiles[j]->heredoc_lim);
 			}
-		ft_printf("\n");
+			ft_printf("\n");
 		}
 		if (s_cmd->ofc)
 		{
 			ft_printf("Outputing to: ");
 			for (j = 0; j < s_cmd->ofc; j++)
 			{
-				ft_printf("%s (%s) ", s_cmd->outfiles[j]->to, s_cmd->outfiles[j]->mode ? "APPEND" : "WRITE");
+				ft_printf("%s (%s) ", s_cmd->outfiles[j]->to,
+					s_cmd->outfiles[j]->append_mode ? "APPEND" : "WRITE");
 			}
-		ft_printf("\n");
+			ft_printf("\n");
 		}
 		ft_printf("\n");
 	}

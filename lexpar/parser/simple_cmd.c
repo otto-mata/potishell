@@ -6,7 +6,7 @@
 /*   By: tblochet <tblochet@student.42.fr>                └─┘ ┴  ┴ └─┘        */
 /*                                                        ┌┬┐┌─┐┌┬┐┌─┐        */
 /*   Created: 2025/01/08 06:28:23 by tblochet             │││├─┤ │ ├─┤        */
-/*   Updated: 2025/01/08 23:05:59 by tblochet             ┴ ┴┴ ┴ ┴ ┴ ┴        */
+/*   Updated: 2025/01/09 00:50:09 by tblochet             ┴ ┴┴ ┴ ┴ ┴ ┴        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ void	insert_argument(t_simple_cmd *cmd, char *arg)
 		return ;
 	if (cmd->allocd <= cmd->argc + 1)
 	{
-		ft_realloc(cmd->argv, cmd->allocd * sizeof(char *), (cmd->allocd + 1)
-			* sizeof(char *));
+		cmd->argv = ft_realloc(cmd->argv, cmd->allocd * sizeof(char *),
+				(cmd->allocd + 1) * sizeof(char *));
 		cmd->allocd++;
 	}
 	cmd->argv[cmd->argc] = arg;
@@ -61,11 +61,12 @@ void	insert_outfile(t_simple_cmd *cmd, char *file, int wmode)
 		return ;
 	if (cmd->of_allocd <= cmd->ofc + 1)
 	{
-		ft_realloc(cmd->outfiles, cmd->of_allocd * sizeof(t_wredir *),
-			(cmd->of_allocd + 1) * sizeof(t_wredir *));
+		cmd->outfiles = ft_realloc(cmd->outfiles, cmd->of_allocd
+				* sizeof(t_wredir *), (cmd->of_allocd + 1)
+				* sizeof(t_wredir *));
 		cmd->of_allocd++;
 	}
-	redir->mode = wmode;
+	redir->append_mode = wmode;
 	redir->to = file;
 	cmd->outfiles[cmd->ofc] = redir;
 	cmd->ofc++;
@@ -82,8 +83,9 @@ void	insert_infile(t_simple_cmd *cmd, char *file, int is_heredoc)
 		return ;
 	if (cmd->if_allocd <= cmd->ifc + 1)
 	{
-		ft_realloc(cmd->infiles, cmd->if_allocd * sizeof(t_rredir *),
-			(cmd->if_allocd + 1) * sizeof(t_rredir *));
+		cmd->infiles = ft_realloc(cmd->infiles, cmd->if_allocd
+				* sizeof(t_rredir *), (cmd->if_allocd + 1)
+				* sizeof(t_rredir *));
 		cmd->if_allocd++;
 	}
 	if (is_heredoc)
