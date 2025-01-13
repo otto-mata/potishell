@@ -6,7 +6,7 @@
 /*   By: tblochet <tblochet@student.42.fr>                └─┘ ┴  ┴ └─┘        */
 /*                                                        ┌┬┐┌─┐┌┬┐┌─┐        */
 /*   Created: 2025/01/08 07:10:23 by tblochet             │││├─┤ │ ├─┤        */
-/*   Updated: 2025/01/09 02:10:34 by tblochet             ┴ ┴┴ ┴ ┴ ┴ ┴        */
+/*   Updated: 2025/01/13 09:35:04 by tblochet             ┴ ┴┴ ┴ ┴ ┴ ┴        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	expand_token(t_token *token, int start)
 	char	*expanded;
 	int		end;
 
-	if (token->text + start + 1 == '?')
+	if (*(token->text + start + 1) == '?')
 		env_value = retrieve_last_exit_code();
 	else
 	{

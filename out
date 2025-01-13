@@ -1,0 +1,456 @@
+-------------------------------------------------------------
+Parsing command: grep hi <./test_files/infile
+Command: grep hi 
+Aggregating input from: ./test_files/infile 
+
+-------------------------------------------------------------
+Parsing command: grep hi "<infile" <         ./test_files/infile
+Command: grep hi "<infile" 
+Aggregating input from: ./test_files/infile 
+
+-------------------------------------------------------------
+Parsing command: echo hi < ./test_files/infile bye bye
+Command: echo hi bye bye 
+Aggregating input from: ./test_files/infile 
+
+-------------------------------------------------------------
+Parsing command: grep hi <./test_files/infile_big <./test_files/infile
+Command: grep hi 
+Aggregating input from: ./test_files/infile_big ./test_files/infile 
+
+-------------------------------------------------------------
+Parsing command: echo <"./test_files/infile" "bonjour       42"
+Command: echo "bonjour       42" 
+Aggregating input from: "./test_files/infile" 
+
+-------------------------------------------------------------
+Parsing command: cat <"./test_files/file name with spaces"
+Command: cat 
+Aggregating input from: "./test_files/file name with spaces" 
+
+-------------------------------------------------------------
+Parsing command: cat <./test_files/infile_big ./test_files/infile
+Command: cat ./test_files/infile 
+Aggregating input from: ./test_files/infile_big 
+
+-------------------------------------------------------------
+Parsing command: cat <"1""2""3""4""5"
+Command: cat 
+Aggregating input from: "1""2""3""4""5" 
+
+-------------------------------------------------------------
+Parsing command: echo <"./test_files/infile" <missing <"./test_files/infile"
+Command: echo 
+Aggregating input from: "./test_files/infile" missing "./test_files/infile" 
+
+-------------------------------------------------------------
+Parsing command: echo <missing <"./test_files/infile" <missing
+Command: echo 
+Aggregating input from: missing "./test_files/infile" missing 
+
+-------------------------------------------------------------
+Parsing command: cat <"./test_files/infile"
+Command: cat 
+Aggregating input from: "./test_files/infile" 
+
+-------------------------------------------------------------
+Parsing command: echo <"./test_files/infile_big" | cat <"./test_files/infile"
+Command: echo 
+Aggregating input from: "./test_files/infile_big" 
+
+Command: cat 
+Aggregating input from: "./test_files/infile" 
+
+-------------------------------------------------------------
+Parsing command: echo <"./test_files/infile_big" | cat "./test_files/infile"
+Command: echo 
+Aggregating input from: "./test_files/infile_big" 
+
+Command: cat "./test_files/infile" 
+
+-------------------------------------------------------------
+Parsing command: echo <"./test_files/infile_big" | echo <"./test_files/infile"
+Command: echo 
+Aggregating input from: "./test_files/infile_big" 
+
+Command: echo 
+Aggregating input from: "./test_files/infile" 
+
+-------------------------------------------------------------
+Parsing command: echo hi | cat <"./test_files/infile"
+Command: echo hi 
+
+Command: cat 
+Aggregating input from: "./test_files/infile" 
+
+-------------------------------------------------------------
+Parsing command: echo hi | cat "./test_files/infile"
+Command: echo hi 
+
+Command: cat "./test_files/infile" 
+
+-------------------------------------------------------------
+Parsing command: cat <"./test_files/infile" | echo hi
+Command: cat 
+Aggregating input from: "./test_files/infile" 
+
+Command: echo hi 
+
+-------------------------------------------------------------
+Parsing command: cat <"./test_files/infile" | grep hello
+Command: cat 
+Aggregating input from: "./test_files/infile" 
+
+Command: grep hello 
+
+-------------------------------------------------------------
+Parsing command: cat <"./test_files/infile_big" | echo hi
+Command: cat 
+Aggregating input from: "./test_files/infile_big" 
+
+Command: echo hi 
+
+-------------------------------------------------------------
+Parsing command: cat <missing
+Command: cat 
+Aggregating input from: missing 
+
+-------------------------------------------------------------
+Parsing command: cat <missing | cat
+Command: cat 
+Aggregating input from: missing 
+
+Command: cat 
+
+-------------------------------------------------------------
+Parsing command: cat <missing | echo oi
+Command: cat 
+Aggregating input from: missing 
+
+Command: echo oi 
+
+-------------------------------------------------------------
+Parsing command: cat <missing | cat <"./test_files/infile"
+Command: cat 
+Aggregating input from: missing 
+
+Command: cat 
+Aggregating input from: "./test_files/infile" 
+
+-------------------------------------------------------------
+Parsing command: echo <123 <456 hi | echo 42
+Command: echo hi 
+Aggregating input from: 123 456 
+
+Command: echo 42 
+
+-------------------------------------------------------------
+Parsing command: ls >./outfiles/outfile01
+Command: ls 
+Outputing to: ./outfiles/outfile01 (WRITE) 
+
+-------------------------------------------------------------
+Parsing command: ls >         ./outfiles/outfile01
+Command: ls 
+Outputing to: ./outfiles/outfile01 (WRITE) 
+
+-------------------------------------------------------------
+Parsing command: echo hi >         ./outfiles/outfile01 bye
+Command: echo hi bye 
+Outputing to: ./outfiles/outfile01 (WRITE) 
+
+-------------------------------------------------------------
+Parsing command: ls >./outfiles/outfile01 >./outfiles/outfile02
+Command: ls 
+Outputing to: ./outfiles/outfile01 (WRITE) ./outfiles/outfile02 (WRITE) 
+
+-------------------------------------------------------------
+Parsing command: ls >./outfiles/outfile01 >./test_files/invalid_permission
+Command: ls 
+Outputing to: ./outfiles/outfile01 (WRITE) ./test_files/invalid_permission (WRITE) 
+
+-------------------------------------------------------------
+Parsing command: ls >"./outfiles/outfile with spaces"
+Command: ls 
+Outputing to: "./outfiles/outfile with spaces" (WRITE) 
+
+-------------------------------------------------------------
+Parsing command: ls >"./outfiles/outfile""1""2""3""4""5"
+Command: ls 
+Outputing to: "./outfiles/outfile""1""2""3""4""5" (WRITE) 
+
+-------------------------------------------------------------
+Parsing command: ls >"./outfiles/outfile01" >./test_files/invalid_permission >"./outfiles/outfile02"
+Command: ls 
+Outputing to: "./outfiles/outfile01" (WRITE) ./test_files/invalid_permission (WRITE) "./outfiles/outfile02" (WRITE) 
+
+-------------------------------------------------------------
+Parsing command: ls >./test_files/invalid_permission >"./outfiles/outfile01" >./test_files/invalid_permission
+Command: ls 
+Outputing to: ./test_files/invalid_permission (WRITE) "./outfiles/outfile01" (WRITE) ./test_files/invalid_permission (WRITE) 
+
+-------------------------------------------------------------
+Parsing command: cat <"./test_files/infile" >"./outfiles/outfile01"
+Command: cat 
+Aggregating input from: "./test_files/infile" 
+Outputing to: "./outfiles/outfile01" (WRITE) 
+
+-------------------------------------------------------------
+Parsing command: echo hi >./outfiles/outfile01 | echo bye
+Command: echo hi 
+Outputing to: ./outfiles/outfile01 (WRITE) 
+
+Command: echo bye 
+
+-------------------------------------------------------------
+Parsing command: echo hi >./outfiles/outfile01 >./outfiles/outfile02 | echo bye
+Command: echo hi 
+Outputing to: ./outfiles/outfile01 (WRITE) ./outfiles/outfile02 (WRITE) 
+
+Command: echo bye 
+
+-------------------------------------------------------------
+Parsing command: echo hi | echo >./outfiles/outfile01 bye
+Command: echo hi 
+
+Command: echo bye 
+Outputing to: ./outfiles/outfile01 (WRITE) 
+
+-------------------------------------------------------------
+Parsing command: echo hi | echo bye >./outfiles/outfile01 >./outfiles/outfile02
+Command: echo hi 
+
+Command: echo bye 
+Outputing to: ./outfiles/outfile01 (WRITE) ./outfiles/outfile02 (WRITE) 
+
+-------------------------------------------------------------
+Parsing command: echo hi >./outfiles/outfile01 | echo bye >./outfiles/outfile02
+Command: echo hi 
+Outputing to: ./outfiles/outfile01 (WRITE) 
+
+Command: echo bye 
+Outputing to: ./outfiles/outfile02 (WRITE) 
+
+-------------------------------------------------------------
+Parsing command: echo hi >./outfiles/outfile01 >./test_files/invalid_permission | echo bye
+Command: echo hi 
+Outputing to: ./outfiles/outfile01 (WRITE) ./test_files/invalid_permission (WRITE) 
+
+Command: echo bye 
+
+-------------------------------------------------------------
+Parsing command: echo hi >./test_files/invalid_permission | echo bye
+Command: echo hi 
+Outputing to: ./test_files/invalid_permission (WRITE) 
+
+Command: echo bye 
+
+-------------------------------------------------------------
+Parsing command: echo hi >./test_files/invalid_permission >./outfiles/outfile01 | echo bye
+Command: echo hi 
+Outputing to: ./test_files/invalid_permission (WRITE) ./outfiles/outfile01 (WRITE) 
+
+Command: echo bye 
+
+-------------------------------------------------------------
+Parsing command: echo hi | echo bye >./test_files/invalid_permission
+Command: echo hi 
+
+Command: echo bye 
+Outputing to: ./test_files/invalid_permission (WRITE) 
+
+-------------------------------------------------------------
+Parsing command: echo hi | >./outfiles/outfile01 echo bye >./test_files/invalid_permission
+Command: echo hi 
+
+Command: echo bye 
+Outputing to: ./outfiles/outfile01 (WRITE) ./test_files/invalid_permission (WRITE) 
+
+-------------------------------------------------------------
+Parsing command: echo hi | echo bye >./test_files/invalid_permission >./outfiles/outfile01
+Command: echo hi 
+
+Command: echo bye 
+Outputing to: ./test_files/invalid_permission (WRITE) ./outfiles/outfile01 (WRITE) 
+
+-------------------------------------------------------------
+Parsing command: cat <"./test_files/infile" >./test_files/invalid_permission
+Command: cat 
+Aggregating input from: "./test_files/infile" 
+Outputing to: ./test_files/invalid_permission (WRITE) 
+
+-------------------------------------------------------------
+Parsing command: cat >./test_files/invalid_permission <"./test_files/infile"
+Command: cat 
+Aggregating input from: "./test_files/infile" 
+Outputing to: ./test_files/invalid_permission (WRITE) 
+
+-------------------------------------------------------------
+Parsing command: cat <missing >./outfiles/outfile01
+Command: cat 
+Aggregating input from: missing 
+Outputing to: ./outfiles/outfile01 (WRITE) 
+
+-------------------------------------------------------------
+Parsing command: cat >./outfiles/outfile01 <missing
+Command: cat 
+Aggregating input from: missing 
+Outputing to: ./outfiles/outfile01 (WRITE) 
+
+-------------------------------------------------------------
+Parsing command: cat <missing >./test_files/invalid_permission
+Command: cat 
+Aggregating input from: missing 
+Outputing to: ./test_files/invalid_permission (WRITE) 
+
+-------------------------------------------------------------
+Parsing command: cat >./test_files/invalid_permission <missing
+Command: cat 
+Aggregating input from: missing 
+Outputing to: ./test_files/invalid_permission (WRITE) 
+
+-------------------------------------------------------------
+Parsing command: cat >./outfiles/outfile01 <missing >./test_files/invalid_permission
+Command: cat 
+Aggregating input from: missing 
+Outputing to: ./outfiles/outfile01 (WRITE) ./test_files/invalid_permission (WRITE) 
+
+-------------------------------------------------------------
+Parsing command: ls >>./outfiles/outfile01
+Command: ls 
+Outputing to: ./outfiles/outfile01 (APPEND) 
+
+-------------------------------------------------------------
+Parsing command: ls >>      ./outfiles/outfile01
+Command: ls 
+Outputing to: ./outfiles/outfile01 (APPEND) 
+
+-------------------------------------------------------------
+Parsing command: ls >>./outfiles/outfile01 >./outfiles/outfile01
+Command: ls 
+Outputing to: ./outfiles/outfile01 (APPEND) ./outfiles/outfile01 (WRITE) 
+
+-------------------------------------------------------------
+Parsing command: ls >./outfiles/outfile01 >>./outfiles/outfile01
+Command: ls 
+Outputing to: ./outfiles/outfile01 (WRITE) ./outfiles/outfile01 (APPEND) 
+
+-------------------------------------------------------------
+Parsing command: ls >./outfiles/outfile01 >>./outfiles/outfile01 >./outfiles/outfile02
+Command: ls 
+Outputing to: ./outfiles/outfile01 (WRITE) ./outfiles/outfile01 (APPEND) ./outfiles/outfile02 (WRITE) 
+
+-------------------------------------------------------------
+Parsing command: ls >>./outfiles/outfile01 >>./outfiles/outfile02
+Command: ls 
+Outputing to: ./outfiles/outfile01 (APPEND) ./outfiles/outfile02 (APPEND) 
+
+-------------------------------------------------------------
+Parsing command: ls >>./test_files/invalid_permission
+Command: ls 
+Outputing to: ./test_files/invalid_permission (APPEND) 
+
+-------------------------------------------------------------
+Parsing command: ls >>./test_files/invalid_permission >>./outfiles/outfile01
+Command: ls 
+Outputing to: ./test_files/invalid_permission (APPEND) ./outfiles/outfile01 (APPEND) 
+
+-------------------------------------------------------------
+Parsing command: ls >>./outfiles/outfile01 >>./test_files/invalid_permission
+Command: ls 
+Outputing to: ./outfiles/outfile01 (APPEND) ./test_files/invalid_permission (APPEND) 
+
+-------------------------------------------------------------
+Parsing command: ls >./outfiles/outfile01 >>./test_files/invalid_permission >>./outfiles/outfile02
+Command: ls 
+Outputing to: ./outfiles/outfile01 (WRITE) ./test_files/invalid_permission (APPEND) ./outfiles/outfile02 (APPEND) 
+
+-------------------------------------------------------------
+Parsing command: ls <missing >>./test_files/invalid_permission >>./outfiles/outfile02
+Command: ls 
+Aggregating input from: missing 
+Outputing to: ./test_files/invalid_permission (APPEND) ./outfiles/outfile02 (APPEND) 
+
+-------------------------------------------------------------
+Parsing command: ls >>./test_files/invalid_permission >>./outfiles/outfile02 <missing
+Command: ls 
+Aggregating input from: missing 
+Outputing to: ./test_files/invalid_permission (APPEND) ./outfiles/outfile02 (APPEND) 
+
+-------------------------------------------------------------
+Parsing command: echo hi >>./outfiles/outfile01 | echo bye
+Command: echo hi 
+Outputing to: ./outfiles/outfile01 (APPEND) 
+
+Command: echo bye 
+
+-------------------------------------------------------------
+Parsing command: echo hi >>./outfiles/outfile01 >>./outfiles/outfile02 | echo bye
+Command: echo hi 
+Outputing to: ./outfiles/outfile01 (APPEND) ./outfiles/outfile02 (APPEND) 
+
+Command: echo bye 
+
+-------------------------------------------------------------
+Parsing command: echo hi | echo >>./outfiles/outfile01 bye
+Command: echo hi 
+
+Command: echo bye 
+Outputing to: ./outfiles/outfile01 (APPEND) 
+
+-------------------------------------------------------------
+Parsing command: echo hi | echo bye >>./outfiles/outfile01 >>./outfiles/outfile02
+Command: echo hi 
+
+Command: echo bye 
+Outputing to: ./outfiles/outfile01 (APPEND) ./outfiles/outfile02 (APPEND) 
+
+-------------------------------------------------------------
+Parsing command: echo hi >>./outfiles/outfile01 | echo bye >>./outfiles/outfile02
+Command: echo hi 
+Outputing to: ./outfiles/outfile01 (APPEND) 
+
+Command: echo bye 
+Outputing to: ./outfiles/outfile02 (APPEND) 
+
+-------------------------------------------------------------
+Parsing command: echo hi >>./test_files/invalid_permission | echo bye
+Command: echo hi 
+Outputing to: ./test_files/invalid_permission (APPEND) 
+
+Command: echo bye 
+
+-------------------------------------------------------------
+Parsing command: echo hi >>./test_files/invalid_permission >./outfiles/outfile01 | echo bye
+Command: echo hi 
+Outputing to: ./test_files/invalid_permission (APPEND) ./outfiles/outfile01 (WRITE) 
+
+Command: echo bye 
+
+-------------------------------------------------------------
+Parsing command: echo hi | echo bye >>./test_files/invalid_permission
+Command: echo hi 
+
+Command: echo bye 
+Outputing to: ./test_files/invalid_permission (APPEND) 
+
+-------------------------------------------------------------
+Parsing command: echo hi | echo >>./outfiles/outfile01 bye >./test_files/invalid_permission
+Command: echo hi 
+
+Command: echo bye 
+Outputing to: ./outfiles/outfile01 (APPEND) ./test_files/invalid_permission (WRITE) 
+
+-------------------------------------------------------------
+Parsing command: cat <minishell.h>./outfiles/outfile
+Command: cat 
+Aggregating input from: minishell.h 
+Outputing to: ./outfiles/outfile (WRITE) 
+
+-------------------------------------------------------------
+Parsing command: cat <minishell.h|ls
+Command: cat 
+Aggregating input from: minishell.h 
+
+Command: ls 
+

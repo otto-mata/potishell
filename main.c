@@ -6,10 +6,12 @@
 /*   By: tblochet <tblochet@student.42.fr>                └─┘ ┴  ┴ └─┘        */
 /*                                                        ┌┬┐┌─┐┌┬┐┌─┐        */
 /*   Created: 2025/01/08 08:33:28 by tblochet             │││├─┤ │ ├─┤        */
-/*   Updated: 2025/01/09 00:50:09 by tblochet             ┴ ┴┴ ┴ ┴ ┴ ┴        */
+/*   Updated: 2025/01/13 09:36:33 by tblochet             ┴ ┴┴ ┴ ┴ ┴ ┴        */
 /*                                                                            */
 /* ************************************************************************** */
 
+
+#include <readline/readline.h>
 #include "lexpar/lexer/lexer.h"
 #include "lexpar/parser/parser.h"
 #include "libft/libft.h"
@@ -80,7 +82,6 @@ i.e. <file0 <file1 cat >out0 >out1 ecrira
 	WRITE out1 <contenu file0><contenu file1>
 
 */
-
 int	main(int argc, char **argv)
 {
 	t_list			*tok;
@@ -94,7 +95,7 @@ int	main(int argc, char **argv)
 	int				j;
 
 	if (argc < 2)
-		raw = "ls -al a* | grep me >> outfile";
+		raw = readline("potishell> ");
 	else
 		raw = argv[1];
 	ft_printf("-------------------------------------------------------------\n");

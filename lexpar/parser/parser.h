@@ -6,7 +6,7 @@
 /*   By: tblochet <tblochet@student.42.fr>                └─┘ ┴  ┴ └─┘        */
 /*                                                        ┌┬┐┌─┐┌┬┐┌─┐        */
 /*   Created: 2025/01/08 06:24:25 by tblochet             │││├─┤ │ ├─┤        */
-/*   Updated: 2025/01/09 00:50:09 by tblochet             ┴ ┴┴ ┴ ┴ ┴ ┴        */
+/*   Updated: 2025/01/13 09:36:55 by tblochet             ┴ ┴┴ ┴ ┴ ┴ ┴        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ typedef enum e_infile_mode	t_infile_mode;
 
 enum						e_infile_mode
 {
-	FILE = 0,
-	HEREDOC,
+	MODE_FILE = 0,
+	MODE_HEREDOC,
 };
 
 struct						s_simple_cmd
