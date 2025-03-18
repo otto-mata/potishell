@@ -6,7 +6,7 @@
 /*   By: tblochet <tblochet@student.42.fr>                └─┘ ┴  ┴ └─┘        */
 /*                                                        ┌┬┐┌─┐┌┬┐┌─┐        */
 /*   Created: 2025/03/17 10:29:25 by tblochet             │││├─┤ │ ├─┤        */
-/*   Updated: 2025/03/17 16:29:38 by tblochet             ┴ ┴┴ ┴ ┴ ┴ ┴        */
+/*   Updated: 2025/03/18 09:54:05 by tblochet             ┴ ┴┴ ┴ ┴ ┴ ┴        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,10 @@ t_token_list	*tt_new(t_token *token)
 	node = gc_calloc(1, sizeof(t_token_list));
 	if (!node)
 		return (0);
-	node->token = token;
+	node->tok = token;
 	node->next = 0;
 	node->previous = 0;
+	node->match = 0;
 	return (node);
 }
 
@@ -40,10 +41,10 @@ void	clear_tokens_list(t_token_list **token_list)
 	while (iter)
 	{
 		next = iter->next;
-		if (iter && iter->token)
+		if (iter && iter->tok)
 		{
-			gc_free(iter->token->lexeme);
-			gc_free(iter->token);
+			gc_free(iter->tok->lexeme);
+			gc_free(iter->tok);
 		}
 		gc_free(iter);
 		iter = next;

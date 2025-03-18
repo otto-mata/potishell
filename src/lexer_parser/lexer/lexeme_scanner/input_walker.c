@@ -6,7 +6,7 @@
 /*   By: tblochet <tblochet@student.42.fr>                └─┘ ┴  ┴ └─┘        */
 /*                                                        ┌┬┐┌─┐┌┬┐┌─┐        */
 /*   Created: 2025/03/13 16:13:40 by tblochet             │││├─┤ │ ├─┤        */
-/*   Updated: 2025/03/17 10:28:59 by tblochet             ┴ ┴┴ ┴ ┴ ┴ ┴        */
+/*   Updated: 2025/03/18 07:28:00 by tblochet             ┴ ┴┴ ┴ ┴ ┴ ┴        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,12 @@
 static int	redirections(char c)
 {
 	if (c == '|')
-		return (add_token(PIPE));
+	{
+		if (scanner()->match('|'))
+			return (add_token(OR));
+		else
+			return (add_token(PIPE));
+	}
 	else if (c == '>')
 	{
 		if (scanner()->match('>'))
@@ -64,6 +69,10 @@ void	scan_token(void)
 		string(c);
 	else if (c == '$')
 		identifier();
+	else if (c == '(')
+		add_token(LEFT_PAREN);
+	else if (c == ')')
+		add_token(RIGHT_PAREN);
 	else if (lit_check(c))
 		literal();
 	else if (isspace(c))

@@ -6,7 +6,7 @@
 /*   By: tblochet <tblochet@student.42.fr>                └─┘ ┴  ┴ └─┘        */
 /*                                                        ┌┬┐┌─┐┌┬┐┌─┐        */
 /*   Created: 2025/03/13 16:11:51 by tblochet             │││├─┤ │ ├─┤        */
-/*   Updated: 2025/03/17 13:48:28 by tblochet             ┴ ┴┴ ┴ ┴ ┴ ┴        */
+/*   Updated: 2025/03/18 09:54:05 by tblochet             ┴ ┴┴ ┴ ┴ ┴ ┴        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,10 @@ struct						s_token
 
 struct						s_token_list
 {
-	t_token					*token;
+	t_token					*tok;
 	t_token_list			*next;
 	t_token_list			*previous;
+	t_token_list			*match;
 };
 
 struct						s_scanner
@@ -115,4 +116,5 @@ void						append_token(t_token_list **token_list,
 								t_token *token);
 t_token_list				*tt_new(t_token *token);
 void						cleanup_tokens(void);
+int							group_braces(t_token_list *lst);
 #endif

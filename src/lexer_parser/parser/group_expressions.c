@@ -1,37 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                                            */
-/*   cleanup_tokens.c                                     ┌─┐┌┬┐┌┬┐┌─┐        */
+/*   group_expressions.c                                  ┌─┐┌┬┐┌┬┐┌─┐        */
 /*                                                        │ │ │  │ │ │        */
 /*   By: tblochet <tblochet@student.42.fr>                └─┘ ┴  ┴ └─┘        */
 /*                                                        ┌┬┐┌─┐┌┬┐┌─┐        */
-/*   Created: 2025/03/17 13:45:09 by tblochet             │││├─┤ │ ├─┤        */
-/*   Updated: 2025/03/18 09:54:05 by tblochet             ┴ ┴┴ ┴ ┴ ┴ ┴        */
+/*   Created: 2025/03/18 09:59:07 by tblochet             │││├─┤ │ ├─┤        */
+/*   Updated: 2025/03/18 16:32:02 by tblochet             ┴ ┴┴ ┴ ┴ ┴ ┴        */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "shell.h"
+#include <parser.h>
 
-void	cleanup_tokens(void)
+static int	has_paren(t_token_list *lst)
 {
-	t_token_list	*iter;
-	t_token_list	*next;
-	t_token_list	*tmp;
+	while (lst)
+	{
+		if (lst->tok->type == LEFT_PAREN)
+			return (1);
+		lst = lst->next;
+	}
+	return (0);
+}
 
-	iter = scanner()->tokens;
+int	insert_parens(t_token_list *tlst)
+{
+	const int		general_group = !has_paren(tlst);
+	t_token_list	*iter;
+
+	iter = tlst;
+	if (!general_group)
+		return (0);
 	while (iter)
 	{
-		next = iter->next;
-		if (iter->tok->type == WHITESPACE)
-		{
-			tmp = iter->previous;
-			if (iter->previous)
-				iter->previous->next = next;
-			if (iter->next)
-				iter->next->previous = tmp;
-			gc_free(iter->tok);
-			gc_free(iter);
-		}
-		iter = next;
+		
+		iter = iter->next;
 	}
 }

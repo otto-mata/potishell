@@ -34,7 +34,8 @@ SRC_LEXER_PARSER_LEXER_LEXEME_SCANNER_SRC_FILES=errors.c \
 	token_list.c \
 	identifier_expander.c \
 	input_functions.c \
-	scanner_methods.c
+	scanner_methods.c \
+	recursive_brace_match.c
 
 SRC_LEXER_PARSER_PARSER_SRC_FILES=cmd.c
 

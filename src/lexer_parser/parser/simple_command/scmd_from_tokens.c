@@ -6,7 +6,7 @@
 /*   By: tblochet <tblochet@student.42.fr>                └─┘ ┴  ┴ └─┘        */
 /*                                                        ┌┬┐┌─┐┌┬┐┌─┐        */
 /*   Created: 2025/01/16 08:43:12 by tblochet             │││├─┤ │ ├─┤        */
-/*   Updated: 2025/03/17 16:29:27 by tblochet             ┴ ┴┴ ┴ ┴ ┴ ┴        */
+/*   Updated: 2025/03/18 10:19:17 by tblochet             ┴ ┴┴ ┴ ┴ ┴ ┴        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void	register_redirection(t_subcmd *scmd, t_token_list **tokens,
 	if (!(*tokens) || !(*tokens)->next)
 		return ;
 	l = (*tokens)->next;
-	if (l->token->type == WHITESPACE)
+	if (l->tok->type == WHITESPACE)
 		l = l->next;
 	if (t == GREAT || t == GREAT_GREAT)
 	{
@@ -40,7 +40,7 @@ static void	register_redirection(t_subcmd *scmd, t_token_list **tokens,
 			ft_dprintf(2,
 				"potishell: warning: multiple outward redirections, "
 				"using the last one.\n");
-		scmd_set_outfile(scmd, ftgc_strdup(l->token->lexeme), t == GREAT_GREAT);
+		scmd_set_outfile(scmd, ftgc_strdup(l->tok->lexeme), t == GREAT_GREAT);
 	}
 	else
 	{
@@ -48,7 +48,7 @@ static void	register_redirection(t_subcmd *scmd, t_token_list **tokens,
 			ft_dprintf(2,
 				"potishell: warning: multiple inward redirections, "
 				"using the last one.\n");
-		scmd_set_infile(scmd, ftgc_strdup(l->token->lexeme), t == LESS_LESS);
+		scmd_set_infile(scmd, ftgc_strdup(l->tok->lexeme), t == LESS_LESS);
 	}
 	(*tokens) = l;
 }
@@ -73,7 +73,7 @@ t_subcmd	*scmd_create_from_tokens(t_token_list **tokens)
 		return (0);
 	while (tokens && *tokens)
 	{
-		curr = (*tokens)->token;
+		curr = (*tokens)->tok;
 		if (local_is_redir(curr->type))
 			register_redirection(s_cmd, tokens, curr->type);
 		else if (is_cmd_separator(curr->type))

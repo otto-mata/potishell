@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   redir.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jspitz <jspitz@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/25 13:48:13 by jspitz            #+#    #+#             */
-/*   Updated: 2025/03/17 13:45:04 by jspitz           ###   ########.fr       */
+/*                                                                            */
+/*   redir.c                                              ┌─┐┌┬┐┌┬┐┌─┐        */
+/*                                                        │ │ │  │ │ │        */
+/*   By: tblochet <tblochet@student.42.fr>                └─┘ ┴  ┴ └─┘        */
+/*                                                        ┌┬┐┌─┐┌┬┐┌─┐        */
+/*   Created: 2025/01/25 13:48:13 by jspitz               │││├─┤ │ ├─┤        */
+/*   Updated: 2025/03/18 16:27:51 by tblochet             ┴ ┴┴ ┴ ┴ ┴ ┴        */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <pipe_exec.h>
-#include <parser.h>
 #include <builtins.h>
+#include <parser.h>
+#include <pipe_exec.h>
 
 void	cls_scmd_fd(t_list **iter, t_cmd *cmd, t_subcmd *scmd, int *b_fd)
 {
@@ -101,6 +101,8 @@ void	set_up_stdout(t_list *iter, t_cmd *command, int *out_fd_redir)
 			perror("dup2");
 			exit(4);
 		}
+		if (command->pipe[1] > 0)
+			close(command->pipe[1]);
 		close(*out_fd_redir);
 	}
 	else if (iter->next && *out_fd_redir < 0)

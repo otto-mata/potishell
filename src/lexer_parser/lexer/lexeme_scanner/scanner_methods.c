@@ -6,7 +6,7 @@
 /*   By: tblochet <tblochet@student.42.fr>                └─┘ ┴  ┴ └─┘        */
 /*                                                        ┌┬┐┌─┐┌┬┐┌─┐        */
 /*   Created: 2025/03/13 16:10:57 by tblochet             │││├─┤ │ ├─┤        */
-/*   Updated: 2025/03/17 16:22:10 by tblochet             ┴ ┴┴ ┴ ┴ ┴ ┴        */
+/*   Updated: 2025/03/18 09:54:05 by tblochet             ┴ ┴┴ ┴ ┴ ┴ ┴        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,13 @@ int	match(char c)
 	return (1);
 }
 
+char			*g_enum_text[] = {
+	"PIPE", "EQUAL", "STAR", "GREAT", "GREAT_GREAT", "LESS", "LESS_LESS",
+		"IDENTIFIER", "DSTRING", "SSTRING", "AMPERSAND", "AND", "OR",
+		"LEFT_PAREN", "RIGHT_PAREN", "SEMICOLON", "LITERAL", "WHITESPACE",
+		"EOL",
+};
+
 t_token_list	*scan_tokens(char *source)
 {
 	t_scanner		*scnr;
@@ -78,5 +85,19 @@ t_token_list	*scan_tokens(char *source)
 		return (clear_tokens_list(&scnr->tokens), (void *)0);
 	identifier_expander();
 	literal_accumulator();
+	
+	iter = scnr->tokens; 
+	group_braces(iter);
+	while (iter)
+	{
+		if (iter->tok->type == LEFT_PAREN)
+			printf("LEFT %p->%p\n", iter, iter->match);
+		else if (iter->tok->type == RIGHT_PAREN)
+			printf("RIGHT %p<-%p\n", iter->match, iter);
+		
+		iter = iter->next;
+	}
+	if (scnr->encountered_error)
+		clear_tokens_list(&scnr->tokens);
 	return (scnr->tokens);
 }
